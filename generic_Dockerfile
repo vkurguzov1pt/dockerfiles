@@ -1,0 +1,17 @@
+FROM ubuntu
+
+# Install OpenSSH and basics
+RUN apt-get update && apt-get install -y openssh-server
+
+# Make ssh run when the container starts
+ENTRYPOINT service ssh restart && bash
+
+
+THE END
+
+---------------------------------------------------------
+# Build image from shell
+docker build -t IMAGE_NAME .
+
+#  Run container
+docker run -tid --name CONTAINER_NAME IMAGE_NAME
