@@ -1,0 +1,59 @@
+version: '3'
+
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.4.2
+    container_name: elasticsearch
+    environment: 
+      ES_JAVA_OPTS: "-Xmx256m -Xms256m"
+    volumes:
+      - /opt/elk-docker/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
+    ports:
+      - 9200:9200
+      - 9300:9300
+    networks: 
+      - elk
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:6.4.2
+    container_name: logstash
+    volumes:
+      - /opt/elk-docker/config/logstash.conf:/usr/share/logstash/pipeline/logstash.conf:ro
+      - /opt/elk-docker/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
+    ports:
+      - 5000:5000
+      - 9600:9600
+    environment:
+      LS_JAVA_OPTS: "-Xmx256m -Xms256m"
+    networks:
+      - elk
+    depends_on:
+      - elasticsearch
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:6.4.2
+    container_name: kibana
+    volumes:
+      - /opt/elk-docker/config/kibana.yml:/usr/share/kibana/config/kibana.yml:ro
+    ports:
+      - 5601:5601
+    networks:
+      - elk
+    depends_on:
+      - elasticsearch
+
+  filebeat:
+    image: docker.elastic.co/beats/filebeat:6.4.2
+    container_name: filebeat
+    volumes:
+      - /opt/elk-docker/config/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
+      - /var/log/jenkins:/var/log/jenkins:ro
+    networks:
+      - elk
+    depends_on:
+      - elasticsearch
+      - kibana
+      
+networks:
+  elk:
+    driver: bridge
