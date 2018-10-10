@@ -42,6 +42,18 @@ services:
     depends_on:
       - elasticsearch
 
+  filebeat:
+    image: docker.elastic.co/beats/filebeat:6.4.2
+    container_name: filebeat
+    volumes:
+      - ${PWD}/filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
+      - /var/log/jenkins:/var/log/jenkins:ro
+    networks:
+      - elk
+    depends_on:
+      - elasticsearch
+      - kibana
+      
 networks:
   elk:
     driver: bridge
