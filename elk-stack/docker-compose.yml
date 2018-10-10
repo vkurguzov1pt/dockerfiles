@@ -7,7 +7,7 @@ services:
     environment: 
       ES_JAVA_OPTS: "-Xmx256m -Xms256m"
     volumes:
-      - ${PWD}/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
+      - ${PWD}/elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
     ports:
       - 9200:9200
       - 9300:9300
