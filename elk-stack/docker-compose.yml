@@ -20,6 +20,7 @@ services:
     volumes:
       - ${PWD}/logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
       - ${PWD}/logstash/pipeline:/usr/share/logstash/pipeline:ro
+      - /var/log/jenkins:/var/log/jenkins:ro
     ports:
       - 5000:5000
       - 9600:9600
