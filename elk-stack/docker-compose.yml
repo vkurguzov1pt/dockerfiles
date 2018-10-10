@@ -46,7 +46,7 @@ services:
     image: docker.elastic.co/beats/filebeat:6.4.2
     container_name: filebeat
     volumes:
-      - ${PWD}/filebeat/:/usr/share/filebeat/filebeat.yml:ro
+      - ${PWD}/filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
       - /var/log/jenkins:/var/log/jenkins:ro
     networks:
       - elk
