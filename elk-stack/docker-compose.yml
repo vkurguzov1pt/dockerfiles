@@ -15,7 +15,9 @@ services:
       - elk
 
   logstash:
-    image: docker.elastic.co/logstash/logstash:6.4.2
+    #image: docker.elastic.co/logstash/logstash:6.4.2
+    build:
+      context: logstash/
     container_name: logstash
     volumes:
       - ${PWD}/logstash/config/logstash.yml:/usr/share/logstash/config/logstash.yml:ro
